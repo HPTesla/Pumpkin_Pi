@@ -13,7 +13,7 @@ import RPi.GPIO as GPIO, sys, signal, time, random, bigletters
 #  Call it using bigletters.write('message','color','style').
 #  Run './bigletters.py --h' at the command prompt for a list of options.
 
-pumpkin = ["\033[0;33m",                    # Just a little fun. The color and escape sequences
+pumpkin = ["\033[1;33m",                    # Just a little fun. The color and escape sequences
 r"                                      .-'\ ",   # should work in BASH. Can't guarantee any other shells.
 r"                                      \:. \ ",
 r"                                      |:.  \ ",
@@ -126,6 +126,7 @@ def flash_5():
   pumpkin_pi_on()
   time.sleep(3)
   pumpkin_pi_off()
+  time.sleep(.5)
 
 # This list is used to randomly call flashing patterns. If you add any pattern
 # functions that you want in the rotation, add them to this list as well.
@@ -172,6 +173,7 @@ def pumpkin_pi(stopTime):
       pumpkin_pi_off()
   pumpkin_pi_quit()
 
+#  Set up a signal handler to catch Ctrl+C from the keyboard and exit gracefully.
 def signal_handler(signal, frame):
   print '\nPumpkinPi exit early'
   pumpkin_pi_quit()
@@ -181,25 +183,22 @@ def main():
   global debug
   debug = False
 
-  helpMessage = 'Usage: sudo . /pumpkinPi REQUIRED duration:[hh:mm] OPTIONAL debug mode:{--d}'
+  helpMessage = 'Usage: sudo ./pumpkinPi [hh:mm] {--d}\n\nPARAMETERS:\n  hh:mm - Duration in hours:minutes\n\nOPTIONS:\n  --d debug mode'
 
   if len(sys.argv) == 1:
-   print helpMessage
-   sys.exit(0)
+    print helpMessage
+    sys.exit(0)
+
   if '--d' in sys.argv:
-    print 'Found --d flag'
-    print debug
     debug = True
-    print debug
 
   if len(sys.argv[1]) != 5:
     print helpMessage
     sys.exit(1)
   else:
     hour = int(sys.argv[1][:2])
-    minute = int(sys.argv[1][-2:])                     # Convert the duration to seconds and add t
+    minute = int(sys.argv[1][-2:])                     # Convert the duration to seconds and add
     stopTime = time.time() + (hour * 3600 + minute * 60)  # the current time to find the stop time.
-
     print 'Jack-O-Lantern will go out at', time.strftime('%H:%M, %B %d, %Y', time.localtime(stopTime))
     print '\033[1;31mUse Ctrl+C to exit early.\033[0m'
     
