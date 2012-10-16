@@ -1,7 +1,12 @@
 Pumpkin Pi
 ==========
 
-Illuminate a Jack-o'-Lantern using LEDs and Raspberry Pi.
+Illuminate a Jack o'Lantern using LEDs and Raspberry Pi.
+
+About
+-----
+
+This is a project to light a Jack o'Lantern using LEDs controlled by a Raspberry Pi. The script randomly selects from a variety of lighting patterns. A motion sensor triggers a special sequence for visitors.
 
 Usage
 -----

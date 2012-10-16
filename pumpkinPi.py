@@ -144,7 +144,7 @@ def motion_sequence():     #  Special sequence to call on motion sensor activati
   time.sleep(1)
   RedLED.off()
   time.sleep(.5)
-  for i in range(13):
+  for i in range(13):     # Lucky number 13
     White1LED.on()
     White2LED.on()
     time.sleep(.1)
