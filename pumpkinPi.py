@@ -1,5 +1,5 @@
 #!/usr/bin/python
-#  PumpkinPi, an LED Jack O'Lantern for Raspberry Pi 
+#  PumpkinPi, an LED Jack-O'-Lantern for Raspberry Pi 
 #  https://github.com/begillespie/Pumpkin_Pi
 
 #  To access the GPIO on the Raspberry Pi, you must run this program as root.
@@ -14,33 +14,37 @@ import RPi.GPIO as GPIO, sys, signal, time, random, bigletters
 #  Run './bigletters.py --h' at the command prompt for a list of options.
 
 pumpkin = ["\033[1;33m",                    # Just a little fun. The color and escape sequences
-r"                                      .-'\ ",   # should work in BASH. Can't guarantee any other shells.
-r"                                      \:. \ ",
-r"                                      |:.  \ ",
-r"                                      /::'  \ ",
-r"                                   __/:::.   \ ",
-r"                           _.-'-.'`  `'.-'`'._\-'`';.-'-, ",
-r"                        .`;    :      :     :      :   : `. ",
-r"                       / :     :      :                 :  \ ",
-r"                      /        :/\          :   /\ :     :  \ ",
-r"                     ;   :     /\ \   :     :  /\ \      :   ; ",
-r"                    .    :    /  \ \          /  \ \          . ",
-r"                    ;        /_)__\ \ :     :/_)__\ \    :    ; ",
-r"                   ;         `-----`' : ,   :`-----`'          ; ",
-r"                   |    :      :       / \         :     :     | ",
-r"                   |                  / \ \ :            :     | ",
-r"                   |    :      :     /___\ \:      :           | ",
-r"                   |    :      :     `----`'       :           | ",
-r"                   ;        |;-.,__   :     :   __.-'|   :     ; ",
-r"                    ;    :  ||   \ \``/'---'\`\` /  ||        ; ",
-r"                     .    :  \\   \_\/       \_\/   //   '   . ",
-r"                      ;       \'._    /\     /\ _.-'/   :   ; ",
-r"                       \   :   `._`'-/ /\._./ /\  .'  :    / ",
-r"                        `\  :     `-.\/__\__\/_.;'   :   /` ",
-r"                    jgs   `\  '   :   :        :   :  /` ",
-r"                            `-`.__`        :   :__.'-` ",
-r"                                  `-..`.__.'..-` ",
-'\033[0m']    # Pumpkin ASCII art courtesy of The Internet. Thanks, jgs!!
+"                                .-'\ ",   # should work in BASH. Can't guarantee any other shells.
+"                                \:. \ ",
+"                                |:.  \ ",
+"                                /::'  \ ",
+"                             __/:::.   \ ",
+"                     _.-'-.'`  `'.-'`'._\-'`';.-'-, ",
+"                   .`;    :      :     :      :   : `. ",
+"                  / :     :      :                 :  \ ",
+"                 /        :/\          :   /\ :     :  \ ",
+"                ;   :     /\ \   :     :  /\ \      :   ; ",
+"               .    :    /  \ \          /  \ \          . ",
+"               ;        /_)__\ \ :     :/_)__\ \    :    ; ",
+"              ;         `-----`' : ,   :`-----`'          ; ",
+"              |    :      :       / \         :     :     | ",
+"              |                  / \ \ :            :     | ",
+"              |    :      :     /___\ \:      :           | ",
+"              |    :      :     `----`'       :           | ",
+"              ;        |;-.,__   :     :   __.-'|   :     ; ",
+"               ;    :  ||   \ \``/'---'\`\` /  ||        ; ",
+"                .    :  \\\   \_\/       \_\/   //   '   .   \033[1;32m  .~~.   .~~. \033[1;33m ",
+"                 ;       \\'._    /\     /\ _.-'/   :   ;    \033[1;32m '. \ ' ' / .' \033[1;33m",
+"                  \   :   `._`'-/ /\._./ /\  .'  :    /     \033[1;35m  .~..~~~..~. \033[1;33m ",
+"                   `\  :     `-.\/__\__\/_.;'   :   /`      \033[1;35m : .~.'~'.~. : \033[1;33m ",
+"                     `\  '   :   :        :   :  /`        \033[1;35m ~ (   ) (   ) ~ \033[1;33m ",
+"                       `-`.__`        :   :__.'-`         \033[1;35m ( : '~'.~.'~' : ) \033[1;33m ",
+"                             `-..`.__.'..-`                \033[1;35m ~ .~ (   ) ~. ~ ",
+"                                                             (  : '~' :  )  ",
+"\033[1;37m                                     Powered by Raspberry Pi \033[1;35m '~ .~~~. ~' ",
+"                                                                  '~' "]
+    # Pumpkin ASCII art courtesy of All Over The Internet. Thanks, jgs!!
+    # Raspberry ASCII art from "b3n" on the Raspberry Pi forums http://www.raspberrypi.org/phpBB3/viewtopic.php?f=2&t=5494
 
 GPIO.setmode(GPIO.BCM)  #     Initialize the Pi
 GPIO.setwarnings(False)
@@ -50,8 +54,8 @@ class LED:
   def __init__(self, pin):
     self.pin = pin                      # Initialize the LED object with the pin number
     leds.append(self)                   # The object appends itself to the led list,making
-#                                         it easy to perform actions on all the leds at once.
-    GPIO.setup(self.pin, GPIO.OUT)     # Set the GPIO pin
+                                        #      it easy to perform actions on all the leds at once.
+    GPIO.setup(self.pin, GPIO.OUT)      # Set the GPIO pin
   def on(self):
     GPIO.output(self.pin, True)
   def off(self):
@@ -199,7 +203,7 @@ def main():
     hour = int(sys.argv[1][:2])
     minute = int(sys.argv[1][-2:])                     # Convert the duration to seconds and add
     stopTime = time.time() + (hour * 3600 + minute * 60)  # the current time to find the stop time.
-    print 'Jack-O-Lantern will go out at', time.strftime('%H:%M, %B %d, %Y', time.localtime(stopTime))
+    print 'Jack-O\'-Lantern will go out at', time.strftime('%H:%M, %B %d, %Y', time.localtime(stopTime))
     print '\033[1;31mUse Ctrl+C to exit early.\033[0m'
     
   for line in pumpkin:    # Print a pumpkin to the console.
