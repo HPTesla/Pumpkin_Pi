@@ -63,11 +63,12 @@ class LED:
 
 leds = []     # Holds a list of all the LED objects
 
-RedLED = LED(18)
-White1LED = LED(23)
-White2LED = LED(24)
+RedLED = LED(23)
+AmberLED = LED(22)
+White1LED = LED(24)
+White2LED = LED(25)
 
-motionsensor = 11    # Set up the motion sensor
+motionsensor = 17    # Set up the motion sensor
 GPIO.setup(motionsensor, GPIO.IN)
 
 def pumpkin_pi_on():
@@ -84,23 +85,23 @@ def pumpkin_pi_off():
 #  seconds long so the motion sensor gets polled every second or two.
 def flash_1(): 
   if debug: print 'Flash 1'
-  for i in range(6):
+  for i in range(8):
     pumpkin_pi_on()
-    time.sleep(.25)
+    time.sleep(0.2)
     pumpkin_pi_off()
-    time.sleep(.25)
+    time.sleep(0.2)
 
 def flash_2():
   if debug: print 'Flash 2'
   RedLED.on()
   for i in range(6):
     White1LED.on()
-    time.sleep(.2)
+    time.sleep(0.2)
     White2LED.on()
-    time.sleep(.1)
+    time.sleep(0.1)
     White1LED.off()
     White2LED.off()
-    time.sleep(.2)
+    time.sleep(0.2)
   RedLED.off()
 
 def flash_3():
@@ -108,53 +109,97 @@ def flash_3():
   RedLED.on()
   for i in range(8):
     White1LED.on()
-    time.sleep(.1)
+    time.sleep(0.1)
     White1LED.off()
-    time.sleep(.15)
+    time.sleep(0.15)
   RedLED.off()
 
 def flash_4():
   if debug: print 'Flash 4'
   for i in range(2):
     White1LED.on()
-    time.sleep(.5)
+    time.sleep(0.5)
+    AmberLED.off()
     White2LED.on()
-    time.sleep(.5)
+    time.sleep(0.5)
     White1LED.off()
-    time.sleep(.5)
+    time.sleep(0.5)
     White2LED.off()
-    time.sleep(.5)
+    AmberLED.on()
+    time.sleep(0.5)
 
 def flash_5():
   if debug: print 'Flash 5'
   pumpkin_pi_on()
   time.sleep(3)
   pumpkin_pi_off()
-  time.sleep(.5)
+  time.sleep(0.3)
+
+def flash_6():
+  if debug: print 'Flash 6'
+  for i in range(5):
+    for j in range(15):
+      AmberLED.on()
+      time.sleep(.05)
+      AmberLED.off()
+      time.sleep(.05)
+    AmberLED.on()
+    time.sleep(.08)
+
+def flash_7():
+  if debug: print 'Flash 7'
+  for i in range(15):
+    if i % 5 == 0:
+      AmberLED.on()
+    RedLED.on()
+    time.sleep(.05)
+    RedLED.off()
+    time.sleep(.05)
+    AmberLED.off()
 
 # This list is used to randomly call flashing patterns. If you add any pattern
 # functions that you want in the rotation, add them to this list as well.
-flash_patterns = [flash_1, flash_2, flash_3, flash_4, flash_5]     #<-- A list of functions!!
+flash_patterns = [flash_1, flash_2, flash_3, flash_4, flash_5, flash_6, flash_7]     #<-- A list of functions!!
 
-def motion_sequence():     #  Special sequence to call on motion sensor activation
+def motion_sequence():     #  Special sequence to call on motion sensor activation. It is a long sequence to give the PIR time to stabilize.
   if debug: print 'Motion Sensor Activate'  #debug
   pumpkin_pi_off()
   time.sleep(2)
   pumpkin_pi_on()
   time.sleep(1)
   White1LED.off()
-  time.sleep(.5)
+  time.sleep(0.5)
   White2LED.off()
   time.sleep(1)
   RedLED.off()
-  time.sleep(.5)
+  time.sleep(0.5)
   for i in range(13):     # Lucky number 13
     White1LED.on()
     White2LED.on()
-    time.sleep(.1)
+    time.sleep(0.1)
     White1LED.off()
     White2LED.off()
-    time.sleep(.25)
+    time.sleep(0.25)
+  time.sleep(2)
+  for i in range(100):
+    White2LED.on()
+    time.sleep(0.01)
+    White2LED.off()
+    time.sleep(0.01)
+  RedLED.on()
+  for i in range(4):
+    White1LED.on()
+    time.sleep(.1)
+    White1LED.off()
+    time.sleep(.5)
+  pumpkin_pi_on()
+  time.sleep(10)
+  White1LED.off()
+  time.sleep(5)
+  White2LED.off()
+  time.sleep(6)
+  pumpkin_pi_off()
+  time.sleep(2)
 
 def pumpkin_pi_quit():
   print 'Exit PumpkinPi\n\n'
