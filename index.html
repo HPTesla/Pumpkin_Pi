@@ -2,53 +2,164 @@
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="style.css" />
+<!--    <link href="google-code-prettify/prettify.css" type="text/css" rel="stylesheet" /> -->
+    <link rel="stylesheet" type="text/css" href="sunburst.css" />
+    <script type="text/javascript" src="google-code-prettify/prettify.js"></script>
     <title>Pumpkin Pi</title>
+    <meta name="Description" content="A very easy beginners project to illuminate a Jack-o'Lantern using LEDs and Raspberry Pi.">
   </head>
-  <body>
-    <div class="container">
+  <body onload="prettyPrint()">
       <div class="navbar">
-        <p>Pumpkin Pi<a href="https://github.com/begillespie/Pumpkin_Pi">Fork me on GitHub</a></p>
+        <h1>Pumpkin Pi<p><a href="https://github.com/begillespie/Pumpkin_Pi">Fork me on GitHub</a></p></h1>
       </div>
+    <div class="container">
       <div class="sidebar_left">
-        <p class="tagline">Illuminate a Jack o'Lantern using LESs and Raspberry Pi.</p>
+        <p class="tagline">Illuminate a Jack-o'-Lantern using LEDs and Raspberry Pi.</p><hr>
         <ul class="contents">
           <li><a href="#overview">Overview</a></li>
           <li><a href="#circuits">Circuits</a></li>
           <li><a href="#code">Code</a></li>
           <li><a href="#pumpkin">Pumpkin</a></li>
         </ul>
+        <ul class="raspi">
+          <li><a href="http://www.raspberrypi.org"><img src="./Images/Raspi_Colour_R.png" height="60px" title="Raspberry Pi is a trademark of the Raspberry Pi Foundation"/></a></li>
+          <li>Runs on Raspberry Pi</li>
+        </ul>
       </div>
+      
       <div class="content">
-        <h1 id="overview">Overview</h1>
+        <img class="image-right" width="300px" src="./Images/PumpkinPiTerminal.png"/>
+        <h2 id="overview">Overview<hr></h2>
         <div class="build-text">
-          ...Project overview...
+          <p>Some dozen years ago, I very nearly failed a 200-level Electrical Engineering course. More than fifteen years ago was the last time I did much programming. In FORTRAN. This is my guide to making a Pi powered interactive Jack-o'-Lantern from my completely novice perspective.</p>
+          <p>Why a Raspberry Pi? Well, it's all the rage right now, and, while an Arduino is probably a better choice here, a Pi was what I had. And we all know what they say about what to do when <a href="http://en.wiktionary.org/wiki/if_all_you_have_is_a_hammer,_everything_looks_like_a_nail">all you have is a hammer</a>. Also, I've been working on learning <a href="http://www.codecademy.com/tracks/python">Python</a> lately, so using the Pi was a good way to put what I've been learning to work.</p>
+          <p>I'll walk through building the <a href="#circuits">circuits</a>, writing the <a href="#code">code</a>, and putting it all together into a <a href="#pumpkin">pumpkin</a>.</p>
         </div>
 
-        <h1 id="circuits">Buld Some Circuits</h1>
+        <h2 id="circuits">Build Some Circuits<hr></h2>
         <div class="build-text">
+          <p>I built everything onto two breadboards. The breakout board connects to the GPIO headers through the Adafruit Pi Cobbler Kit and the remote board is inside the pumpkin and holds the lights and motion sensor. The remote board is tethered by a piece of CAT-5e cable with the ends cut off. By using two boards this way, I can keep the Raspberry Pi and main board inside and run the cable out the window to the pumpkin on the porch.</p><a href="./Images/Breadboard_layout.png"><img class="image-right" width="300px" src="./Images/Breadboard_layout_thn.png"/></a>
+          <p>The Raspberry Pi provides 3.3V and 5V power. The 5V pin is connected to the bottom rail to power the PIR. Each LED is connected to a GPIO pin that provides 3.3V when switched on.</p>
           Components used:
           <ul>
             <li><a href="http://www.raspberrypi.org">Raspberry Pi</a></li>
-            <li>Adafruit Pi Cobbler Breakout Kit</li>
+            <li><a href="http://adafruit.com/products/914">Adafruit Pi Cobbler Breakout Kit</a></li>
+            <li><a href="http://adafruit.com/products/189">PIR (motion) sensor</a></li>
             <li>Quarter-sized and Half-sized breadboards</li>
-            <li><a href="http://adafruit.com/products/189">PIR motion sensor</a></li>
             <li>2 White 10mm LEDs</li>
-            <li>Red 5mm LED</li>
-            <li>220 ohm Resistors</li>
-            <li>Breadboard wire</li>
+            <li>2 Red 5mm LEDs</li>
+            <li>Amber 5mm LED</li>
+            <li>Resistors</li>
           </ul>
+          <p>Some of the specifics on the parts list were driven by what I had on hand. I have four circuits for LEDs on pins 17, 22, 23 and 25. For a brighter red glow, I put two red LEDs together on one circuit. They are wired in parallel so each sees 3.3V for maximum brightness. Each LED circuit also has a 220 ohm current limiting resistor.</p>
+          <p>The PIR wiring is very simple. It has 3 connections: ground, +5V and signal. My signal wire connects to pin 24 and the whole PIR is on a 12 inch lead so I can position it for best coverage. </p>
+<pre class="prettyprint">
+import RPi.GPIO as GPIO, time
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(22, GPIO.OUT)
+GPIO.setup(24, GPIO.IN)
+
+GPIO.output(22, True)
+time.sleep(10)
+GPIO.output(22, False)
+time.sleep(10)
+
+while True:
+  if GPIO.input(24):
+    print "Motion Sensor"
+    GPIO.output(22, True)
+    time.sleep(10)
+    GPIO.output(22, False)
+</pre>
         </div>
 
-        <h1 id="code">Write Code</h1>
+        <h2 id="code">Write Some Code<hr></h2>
         <div class="build-text">
-          ...Code overview...
+          <p>The code is in Python and posted on <a href="https://github.com/begillespie/pumpkin_pi">GitHub.</a> You'll need to make sure you have the <a href="http://code.google.com/p/raspberry-gpio-python">RPi.GPIO</a> library installed and up to date. The first thing to do is import some modules and set up the board and motion sensor.</p>
+            <pre class="prettyprint">
+import RPi.GPIO as GPIO, random, signal, sys, time, bigletters
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+motionsensor = 11
+GPIO.setup(motionsensor, GPIO.IN)</pre>
+          <p>The bigletters module is something I wrote that prints short messages to the terminal using ASCII art characters.</p>
+          <p> Next is the LED class.</p>
+            <pre class="prettyprint">
+class LED:
+    '''Access the LEDs with some simple methods.'''
+    def __init__(self, pin):
+        self.pin = pin
+        leds.append(self)
+        GPIO.setup(self.pin, GPIO.OUT)
+    def on(self):
+        GPIO.output(self.pin, True
+    def off(self):
+        GPIO.output(self.pin, False)</pre>
+
+          <p>This allows me to create an instance of an LED with a descriptive name and pin number and forget about it.</p>
+
+<pre class="prettyprint">RedLED = LED(18)</pre>
+
+          <p>Now, to turn on the red LED, just call <code class="prettyprint">RedLED.on()</code>. The object also adds itself to a running list of all instances when it is created, to make it easy to perform an action on all of the LEDs attached to the system.<p>
+
+            <pre class="prettyprint">
+def pumpkin_pi_on():
+    for i in range(len(leds)):
+        leds[i].on()</pre>
+
+          <p>I defined a handful of lighting patterns using some <code class="prettyprint">for:</code> loops to keep the code small. To make the program pause, use <code class="prettyprint">time.sleep(t)</code> where t is the length of the delay in seconds. Each sequence lasts around two or three seconds.</p>
+
+            <pre class="prettyprint">
+def flash_1():
+    for i in range(6):
+        pumpkin_pi_on()
+        time.sleep(.25)
+        pumpkin_pi_off()
+        time.sleep(.25)</pre>
+
+          <p>The main program flow involves a few branching for loops that string together a relatively small number of animations to make it look more random. Every iteration of the main loop checks if the alloted running time is up, then checks the motion sensor before randomly choosing a blink pattern.</p>
+
+            <pre class="prettyprint">
+def pumpkin_pi(stopTime):
+    while stopTime > time.time():
+        if GPIO.input(motionsensor):
+            motion_sequence()
+    else:
+        random.choice(flash_patterns)()
+        pumpkin_pi_off()
+  pumpkin_pi_quit()</pre>
+
+          <p>The <code class="prettyprint">while</code> loop will execute the code inside the loop as long as the condition is <code class="prettyprint">True</code> For randomly branching to different functions, I found this piece of code fascinating:</p>
+
+            <pre class="prettyprint">
+list_of_functions=[func_1, func_2, func_3]
+random.choice(list_of_functions)()</pre>
+
+          <p>So, given a list of function names, <code class="prettyprint">random.choice()</code> will pick one, pass it the arguments <code class="prettyprint">()</code> and execute it. This condenses a teetering tower of <code class="prettyprint">if:</code> / <code class="prettyprint">elif:</code> statements down to two lines.</p>
+
+          <p>That's the bulk of the code. There is a <code class="prettyprint">main()</code> function to get things moving and some window dressing for the terminal. There is also a signal handler to catch Ctrl+C from the keyboard and trigger a nice shutdown. To get things running from the command line, make sure it is executable:</p>
+
+<pre class="prettyprint">chmod +x pumpkinPi.py</pre>
+
+          <p>And run it as root with a duration argument to tell it how long you want the pumpkin to run. The GPIO library requires root to get to the GPIO pins on the Raspberry Pi. To run for one hour:</p>
+
+<pre class="prettyprint">sudo ./pumpkinPi.py 01:00</pre>
         </div>
 
-        <h1 id="pumpkin">Pumpkin</h1>
+        <h2 id="pumpkin">Make a Pumpkin<hr></h2>
         <div class="build-text">
           ...Look at that pumpkin...
         </div>
       </div>
+    </div>
+    <div class="footer">
+      <ul>
+        <li>by Brian Gillespie, 2012</li>
+        <li>all photos by Brian Gillespie</li>
+        <li>Raspberry Pi is a trademark of the <a href="http://www.raspberrypi.org">Raspberry Pi Foundation</a></li>
+      </ul>
     </div>
   </body>
 </html>
