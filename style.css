@@ -44,7 +44,7 @@ div.container{
 }
 div.sidebar_left{
   position: fixed;
-  display: inline;
+  display: block;
   float: left;
   width: 173px;
   padding: 0 20px;
@@ -109,8 +109,9 @@ p.build-text{
 
 }
 div.footer{
-  clear: right;
-  padding-top: 30px
+  display: block;
+  clear: both;
+  padding-top: 30px;
 }
 div.footer ul{
   list-style-type: none;
