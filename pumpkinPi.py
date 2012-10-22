@@ -72,19 +72,19 @@ motionsensor = 17    # Set up the motion sensor
 GPIO.setup(motionsensor, GPIO.IN)
 
 def pumpkin_pi_on():
-  if debug: print 'All on'
+  if verbose: print 'All on'
   for i in range(len(leds)):
     leds[i].on()
 
 def pumpkin_pi_off():
-  if debug: print 'All off'
+  if verbose: print 'All off'
   for i in range(len(leds)):
     leds[i].off()
 
 #  Define some different LED flash patterns. I tried to make each one only a few
 #  seconds long so the motion sensor gets polled every second or two.
 def flash_1(): 
-  if debug: print 'Flash 1'
+  if verbose: print 'Flash 1'
   for i in range(8):
     pumpkin_pi_on()
     time.sleep(0.2)
@@ -92,7 +92,7 @@ def flash_1():
     time.sleep(0.2)
 
 def flash_2():
-  if debug: print 'Flash 2'
+  if verbose: print 'Flash 2'
   RedLED.on()
   for i in range(6):
     White1LED.on()
@@ -105,7 +105,7 @@ def flash_2():
   RedLED.off()
 
 def flash_3():
-  if debug: print 'Flash 3'
+  if verbose: print 'Flash 3'
   RedLED.on()
   for i in range(8):
     White1LED.on()
@@ -115,7 +115,7 @@ def flash_3():
   RedLED.off()
 
 def flash_4():
-  if debug: print 'Flash 4'
+  if verbose: print 'Flash 4'
   for i in range(2):
     White1LED.on()
     time.sleep(0.5)
@@ -129,14 +129,14 @@ def flash_4():
     time.sleep(0.5)
 
 def flash_5():
-  if debug: print 'Flash 5'
+  if verbose: print 'Flash 5'
   pumpkin_pi_on()
   time.sleep(3)
   pumpkin_pi_off()
   time.sleep(0.3)
 
 def flash_6():
-  if debug: print 'Flash 6'
+  if verbose: print 'Flash 6'
   for i in range(5):
     for j in range(15):
       AmberLED.on()
@@ -147,7 +147,7 @@ def flash_6():
     time.sleep(.08)
 
 def flash_7():
-  if debug: print 'Flash 7'
+  if verbose: print 'Flash 7'
   for i in range(15):
     if i % 5 == 0:
       AmberLED.on()
@@ -162,7 +162,7 @@ def flash_7():
 flash_patterns = [flash_1, flash_2, flash_3, flash_4, flash_5, flash_6, flash_7]     #<-- A list of functions!!
 
 def motion_sequence():     #  Special sequence to call on motion sensor activation. It is a long sequence to give the PIR time to stabilize.
-  if debug: print 'Motion Sensor Activate'  #debug
+  if verbose: print 'Motion Sensor Activate'  #debug
   pumpkin_pi_off()
   time.sleep(2)
   pumpkin_pi_on()
@@ -173,6 +173,7 @@ def motion_sequence():     #  Special sequence to call on motion sensor activati
   time.sleep(1)
   RedLED.off()
   time.sleep(0.5)
+  AmberLED.off()
   for i in range(13):     # Lucky number 13
     White1LED.on()
     White2LED.on()
@@ -181,6 +182,7 @@ def motion_sequence():     #  Special sequence to call on motion sensor activati
     White2LED.off()
     time.sleep(0.25)
   time.sleep(2)
+  AmberLED.on()
   for i in range(100):
     White2LED.on()
     time.sleep(0.01)
@@ -198,6 +200,7 @@ def motion_sequence():     #  Special sequence to call on motion sensor activati
   time.sleep(5)
   White2LED.off()
   time.sleep(6)
+  AmberLED.off()
   pumpkin_pi_off()
   time.sleep(2)
 
@@ -211,8 +214,33 @@ def pumpkin_pi_quit():
     pumpkin_pi_off()
     time.sleep(.5)
   GPIO.cleanup()
-  sys.exit(0)
-      
+  if not debug: sys.exit(0)
+
+def debug_function():     # Debug mode to check specific functions:
+  global debug
+  debug = True
+  print '\n'
+  funcList = {
+    1 : ['Flash 1', flash_1],
+    2 : ['Flash 2', flash_2],
+    3 : ['Flash 3', flash_3],
+    4 : ['Flash 4', flash_4],
+    5 : ['Flash 5', flash_5],
+    6 : ['Flash 6', flash_6],
+    7 : ['Flash 7', flash_7],
+    8 : ['Motion Sequence', motion_sequence],
+    9 : ['All on', pumpkin_pi_on],
+    10 : ['All off', pumpkin_pi_off],
+    11 : ['Exit Sequence', pumpkin_pi_quit],
+    12 : ['Quit', sys.exit]}
+  for i in range(1, len(funcList)+1):
+    print '%d : %s' %(i, funcList[i][0])
+
+  x = input('Select function => ')
+  print '\n'
+  funcList[x][1]()
+  debug_function()
+
 def pumpkin_pi(stopTime):
   while stopTime > time.time():
 #    if GPIO.input(motionsensor): # Check the motion sensor to show a special animation to visitors.
@@ -229,17 +257,21 @@ def signal_handler(signal, frame):
 signal.signal(signal.SIGINT, signal_handler)
 
 def main():
+  global verbose
+  verbose = False
   global debug
   debug = False
-
-  helpMessage = 'Usage: sudo ./pumpkinPi [hh:mm] {--d}\n\nPARAMETERS:\n  hh:mm - Duration in hours:minutes\n\nOPTIONS:\n  --d debug mode'
+  helpMessage = 'Usage: sudo ./pumpkinPi [hh:mm] {-d -v}\n\nPARAMETERS:\n  hh:mm - Duration in hours:minutes (not required with -d)\n\nOPTIONS:\n  -d Debug mode\n  -v Verbose'
 
   if len(sys.argv) == 1:
     print helpMessage
     sys.exit(0)
 
-  if '--d' in sys.argv:
-    debug = True
+  if '-v' in sys.argv:
+    verbose = True
+
+  if '-d' in sys.argv:
+    debug_function()
 
   if len(sys.argv[1]) != 5:
     print helpMessage
