@@ -127,6 +127,7 @@ def flash_4():
     White2LED.off()
     AmberLED.on()
     time.sleep(0.5)
+  AmberLED.off()
 
 def flash_5():
   if verbose: print 'Flash 5'
@@ -148,10 +149,11 @@ def flash_6():
     time.sleep(0.05)
     White2LED.off()
     time.sleep(1)
+  pumpkin_pi_off()
 
 def flash_7():
   if verbose: print 'Flash 7'
-  for i in range(15):
+  for i in range(20):
     if i % 5 == 0:
       AmberLED.on()
     RedLED.on()
@@ -236,17 +238,20 @@ def debug_function():     # Debug mode to check specific functions:
     6 : ['Flash 6', flash_6],
     7 : ['Flash 7', flash_7],
     8 : ['Motion Sequence', motion_sequence],
-    9 : ['All on', pumpkin_pi_on],
-    10 : ['All off', pumpkin_pi_off],
-    11 : ['Exit Sequence', pumpkin_pi_quit],
-    12 : ['Quit', sys.exit]}
+    9 : ['Red LED', RedLED.on],
+    10 : ['Amber LED', AmberLED.on],
+    11 : ['White 1 LED', White1LED.on],
+    12 : ['White 2 LED', White2LED.on],
+    13 : ['All on', pumpkin_pi_on],
+    14 : ['All off', pumpkin_pi_off],
+    15 : ['Exit Sequence', pumpkin_pi_quit],
+    16 : ['Quit', sys.exit]}
   for i in range(1, len(funcList)+1):
     print '%d : %s' %(i, funcList[i][0])
 
   x = input('Select function => ')
   print '\n'
   funcList[x][1]()
-  pumpkin_pi_off()
   debug_function()
 
 def pumpkin_pi(stopTime):
