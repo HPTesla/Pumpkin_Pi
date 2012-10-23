@@ -137,14 +137,17 @@ def flash_5():
 
 def flash_6():
   if verbose: print 'Flash 6'
-  for i in range(5):
-    for j in range(15):
-      AmberLED.on()
-      time.sleep(.05)
-      AmberLED.off()
-      time.sleep(.05)
-    AmberLED.on()
-    time.sleep(.08)
+  RedLED.on()
+  AmberLED.on()
+  for i in range(2):
+    White1LED.on()
+    time.sleep(0.05)
+    White1LED.off()
+    time.sleep(0.3)
+    White2LED.on()
+    time.sleep(0.05)
+    White2LED.off()
+    time.sleep(1)
 
 def flash_7():
   if verbose: print 'Flash 7'
@@ -164,7 +167,11 @@ flash_patterns = [flash_1, flash_2, flash_3, flash_4, flash_5, flash_6, flash_7]
 def motion_sequence():     #  Special sequence to call on motion sensor activation. It is a long sequence to give the PIR time to stabilize.
   if verbose: print 'Motion Sensor Activate'  #debug
   pumpkin_pi_off()
-  time.sleep(2)
+  time.sleep(1.5)
+  pumpkin_pi_on()
+  time.sleep(0.05)
+  pumpkin_pi_off()
+  time.sleep(0.5)
   pumpkin_pi_on()
   time.sleep(1)
   White1LED.off()
@@ -239,13 +246,14 @@ def debug_function():     # Debug mode to check specific functions:
   x = input('Select function => ')
   print '\n'
   funcList[x][1]()
+  pumpkin_pi_off()
   debug_function()
 
 def pumpkin_pi(stopTime):
   while stopTime > time.time():
-#    if GPIO.input(motionsensor): # Check the motion sensor to show a special animation to visitors.
-#      motion_sequence()
-#    else:
+    if GPIO.input(motionsensor): # Check the motion sensor to show a special animation to visitors.
+      motion_sequence()
+    else:
       random.choice(flash_patterns)()  # Randomly choose a function from the list and execute it.
       pumpkin_pi_off()
   pumpkin_pi_quit()
