@@ -31,7 +31,7 @@
         <img class="image-right" width="300px" src="./Images/PumpkinPiTerminal.PNG"/>
         <h2 id="overview">Overview<hr></h2>
         <div class="build-text">
-          <p>Some dozen years ago, I very nearly failed a 200-level Electrical Engineering course. More than fifteen years ago was the last time I did much programming. In FORTRAN. This is my guide to making a Pi powered interactive Jack-o'-Lantern from my completely novice perspective.</p>
+          <p>Some dozen years ago, I very nearly failed a 200-level Electrical Engineering course. More than fifteen years ago was the last time I did much programming. In FORTRAN. This is my guide to making a Raspberry Pi-powered interactive Jack-o'-Lantern from my completely novice perspective.</p>
           <p>Why a Raspberry Pi? Well, it's all the rage right now, and, while an Arduino is probably a better choice here, a Pi was what I had. And we all know what they say about what to do when <a href="http://en.wiktionary.org/wiki/if_all_you_have_is_a_hammer,_everything_looks_like_a_nail">all you have is a hammer</a>. Also, I've been working on learning <a href="http://www.codecademy.com/tracks/python">Python</a> lately, so using the Pi was a good way to put what I've been learning to work.</p>
           <p>I'll walk through building the <a href="#circuits">circuits</a>, writing the <a href="#code">code</a>, and putting it all together into a <a href="#pumpkin">pumpkin</a>.</p>
         </div>
@@ -51,14 +51,14 @@
             <li>Amber 5mm LED</li>
             <li>Resistors</li>
           </ul>
-          <p>Some of the specifics on the parts list were driven by what I had on hand. I have four circuits for LEDs on pins 17, 22, 23 and 25. For a brighter red glow, I put two red LEDs together on one circuit. They are wired in parallel so each sees 3.3V for maximum brightness. Each individual LED also has a current limiting resistor.</p>
-          <p>The PIR wiring is very simple. It has 3 connections: ground, +5V and signal. My signal wire connects to pin 24 and the whole PIR is on a 12 inch lead so I can position it for best coverage. When the PIR senses motion, it sends out 3.3V on the signal wire. The Raspberry Pi interprets that as <code class="prettyprint">True</code>. To test using the PIR to trigger an action, I connected the PIR to pin 24, an LED to pin 22, and ran this script. All it does is listen for the PIR on pin 24. When a voltage is detected, it prints a message to the terminal and turns on the light. The <code class="prettyprint">While True:</code> statement will cause this loop to run forever. To exit this quick test, wait until the LED is off and hit Ctrl-C.</p>
+          <p>Some of the specifics on the parts list were driven by what I had on hand. I have four circuits for LEDs on pins 22, 23, 24 and 25. For a brighter red glow, I put two red LEDs together on one circuit. They are wired in parallel so each sees 3.3V for maximum brightness. Each individual LED also has a current limiting resistor. </p>
+          <p>The PIR wiring is very simple. It has 3 connections: ground, +5V and signal. My signal wire connects to pin 17 and the whole PIR is on a 12 inch lead so I can position it for best coverage. When the PIR senses motion, it sends out 3.3V on the signal wire for a little over a second. The Raspberry Pi interprets that as <code class="prettyprint">True</code>. To test using the PIR to trigger an action, I connected the PIR to pin 17, an LED to pin 22, and ran this script. All it does is listen for the PIR on pin 17. When a voltage is detected, it prints a message to the terminal and turns on the light. The <code class="prettyprint">While True:</code> statement will cause this loop to run forever. To exit this quick test, wait until the LED is off and hit Ctrl-C.</p>
 <pre class="prettyprint">
 import RPi.GPIO as GPIO, time
 
 GPIO.setmode(GPIO.BCM)      # Set up
 GPIO.setup(22, GPIO.OUT)
-GPIO.setup(24, GPIO.IN)
+GPIO.setup(17, GPIO.IN)
 
 GPIO.output(22, True)       # Turn the light on to confirm it's working
 time.sleep(5)
@@ -66,7 +66,7 @@ GPIO.output(22, False)
 time.sleep(5)
 
 while True:
-  if GPIO.input(24):        # Listen for the PIR on pin 24
+  if GPIO.input(17):        # Listen for the PIR on pin 17
     print "Motion Sensor"
     GPIO.output(22, True)
     time.sleep(10)
@@ -83,7 +83,7 @@ import RPi.GPIO as GPIO, random, signal, sys, time, bigletters
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
-motionsensor = 11
+motionsensor = 17
 GPIO.setup(motionsensor, GPIO.IN)</pre>
           <p>The bigletters module is something I wrote that prints short messages to the terminal using ASCII art characters.</p>
           <p> Next is the LED class.</p>
@@ -101,7 +101,7 @@ class LED:
 
           <p>This allows me to create an instance of an LED with a descriptive name and pin number and forget about it.</p>
 
-<pre class="prettyprint">RedLED = LED(18)</pre>
+<pre class="prettyprint">RedLED = LED(23)</pre>
 
           <p>Now, to turn on the red LED, just call <code class="prettyprint">RedLED.on()</code>. The object also adds itself to a running list of all instances when it is created, to make it easy to perform an action on all of the LEDs attached to the system.<p>
 
@@ -147,11 +147,14 @@ random.choice(list_of_functions)()</pre>
           <p>And run it as root with a duration argument to tell it how long you want the pumpkin to run. The GPIO library requires root to get to the GPIO pins on the Raspberry Pi. To run for one hour:</p>
 
 <pre class="prettyprint">sudo ./pumpkinPi.py 01:00</pre>
+
+          <p>The command line has two options: -v for verbose, where every subordinate function announces itself to the console when it runs. Debug mode is activated with -d and allows you to manually run sequences.</p>
         </div>
 
         <h2 id="pumpkin">Make a Pumpkin<hr></h2>
         <div class="build-text">
-          ...Look at that pumpkin...
+          <p>I chose a medium sized pumpkin, something small enough that the LEDs can adequately light it. Carve it up and add holes for the Cat-5 tether cable and the PIR wires.</p>
+          <p>I'll call this Version 1.0 of Pumpkin Pi. Next year, I might revisit this to scale up the LED array, figure out some more advanced sequences and add a better interface.</p>
         </div>
       </div>
     </div>
