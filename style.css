@@ -3,6 +3,7 @@ body{
   color: #F0F0F0;
   font-size: 12pt;
   font-family: sans-serif;
+  min-width: 1078px;
 }
 div.navbar{
   color: #FF9100;
@@ -87,26 +88,31 @@ hr {
     background-image:     -ms-linear-gradient(left, #FF9100, #666); 
     background-image:      -o-linear-gradient(left, #FF9100, #666);
 }
-p.build-text{
-
-}
 .image-left{
   display: inline-block;
+  background: #000;
   float: left;
   margin: 10px;
 }
 .image-right{
   display: inline-block;
+  background: #000;
   float: right;
   margin: 10px;
 }
 .image-center{
   display: block;
+  background: #000;
   margin: 0 auto;
   padding: 10;
+  width: 800px;
 }
 .caption{
-
+  color: #FFF;
+  font-size: 8pt;
+  font-weight: bold;
+  text-align: center;
+  padding: 0 0 5px 0;
 }
 div.footer{
   display: block;
@@ -119,4 +125,26 @@ div.footer ul{
 }
 code.prettyprint{
   padding: 0 1em;
+}
+pre.prettyprint{
+  clear: both;
+}
+table {
+	font-size: 10pt;
+	border-width: 2px;
+	border-collapse: collapse;
+  border-color: #000;
+  text-align: center;
+}
+table th {
+	border-width: 2px;
+	padding: 8px;
+  border-color: #000;
+	border-style: solid;
+}
+table td {
+	border-width: 2px;
+	padding: 8px;
+  border-color: #000;
+	border-style: solid;
 }

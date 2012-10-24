@@ -38,8 +38,9 @@
 
         <h2 id="circuits">Build Some Circuits<hr></h2>
         <div class="build-text">
-          <p>I built everything onto two breadboards. The breakout board connects to the GPIO headers through the Adafruit Pi Cobbler Kit and the remote board is inside the pumpkin and holds the lights and motion sensor. The remote board is tethered by a piece of CAT-5e cable with the ends cut off. By using two boards this way, I can keep the Raspberry Pi and main board inside and run the cable out the window to the pumpkin on the porch.</p><a href="./Images/Breadboard_layout.png"><img class="image-right" width="300px" src="./Images/Breadboard_layout_thn.png"/></a>
+          <p>I built everything onto two breadboards. The breakout board connects to the GPIO headers through the Adafruit Pi Cobbler Kit and the remote board is inside the pumpkin and holds the lights and motion sensor. The remote board is tethered by a piece of CAT-5e cable with the ends cut off. By using two boards this way, I can keep the Raspberry Pi and main board inside and run the cable out the window to the pumpkin on the porch.</p>
           <p>The Raspberry Pi provides 3.3V and 5V power. The 5V pin is connected to the bottom rail to power the PIR. Each LED is connected to a GPIO pin that provides 3.3V when switched on.</p>
+          <div class="image-right"><a href="./Images/PumpkinPi4.jpg"><img src="./Images/PumpkinPi4_300px.jpg"/></a><div class="caption">Setting up to test the PIR</div></div>
           Components used:
           <ul>
             <li><a href="http://www.raspberrypi.org">Raspberry Pi</a></li>
@@ -51,7 +52,7 @@
             <li>Amber 5mm LED</li>
             <li>Resistors</li>
           </ul>
-          <p>Some of the specifics on the parts list were driven by what I had on hand. I have four circuits for LEDs on pins 22, 23, 24 and 25. For a brighter red glow, I put two red LEDs together on one circuit. They are wired in parallel so each sees 3.3V for maximum brightness. Each individual LED also has a current limiting resistor. </p>
+          <p>Some of the specifics on the parts list were driven by what I had on hand. I have four circuits for LEDs on pins 22, 23, 24 and 25. For a brighter red glow, I put two red LEDs together on one circuit. They are wired in parallel so each sees 3.3V for maximum brightness. Each individual LED also has a current limiting resistor.</p>
           <p>The PIR wiring is very simple. It has 3 connections: ground, +5V and signal. My signal wire connects to pin 17 and the whole PIR is on a 12 inch lead so I can position it for best coverage. When the PIR senses motion, it sends out 3.3V on the signal wire for a little over a second. The Raspberry Pi interprets that as <code class="prettyprint">True</code>. To test using the PIR to trigger an action, I connected the PIR to pin 17, an LED to pin 22, and ran this script. All it does is listen for the PIR on pin 17. When a voltage is detected, it prints a message to the terminal and turns on the light. The <code class="prettyprint">While True:</code> statement will cause this loop to run forever. To exit this quick test, wait until the LED is off and hit Ctrl-C.</p>
 <pre class="prettyprint">
 import RPi.GPIO as GPIO, time
@@ -74,7 +75,7 @@ while True:
 </pre>
           <p>A quick note about the GPIO pins on the Raspberry Pi: They are digital, which means that they are all or nothing, high or low, on or off, <code class="prettyprint">True</code> or <code class="prettyprint">False</code>. The correlation between what is happening in the code and physically, on the Pi, is that <code class="prettyprint">True</code> equals +3.3V on the GPIO pin and <code class="prettyprint">False</code> equals no voltage on the pin.</p>
         </div>
-
+        <div class="image-center"><a href="./Images/PumpkinPi1.jpg"><img width="800px" src="./Images/PumpkinPi1_800px.jpg"/></a><div class="caption">Pumpkin Pi on the bench</div></div>
         <h2 id="code">Write Some Code<hr></h2>
         <div class="build-text">
           <p>The code is in Python and posted on <a href="https://github.com/begillespie/pumpkin_pi">GitHub.</a> You'll need to make sure you have the <a href="http://code.google.com/p/raspberry-gpio-python">RPi.GPIO</a> library installed and up to date. The first thing to do is import some modules and set up the board and motion sensor.</p>
@@ -85,6 +86,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 motionsensor = 17
 GPIO.setup(motionsensor, GPIO.IN)</pre>
+          <div class="image-right"><a href="./Images/PumpkinPi3.jpg"><img src="./Images/PumpkinPi3_300px.jpg"/></a><div class="caption">The remote board</div></div>
           <p>The bigletters module is something I wrote that prints short messages to the terminal using ASCII art characters.</p>
           <p> Next is the LED class.</p>
             <pre class="prettyprint">
@@ -147,14 +149,24 @@ random.choice(list_of_functions)()</pre>
           <p>And run it as root with a duration argument to tell it how long you want the pumpkin to run. The GPIO library requires root to get to the GPIO pins on the Raspberry Pi. To run for one hour:</p>
 
 <pre class="prettyprint">sudo ./pumpkinPi.py 01:00</pre>
-
+          <div class="image-left"><a href="./Images/PumpkinPi2.jpg"><img src="./Images/PumpkinPi2_300px.jpg"/></a><div class="caption">The breakout board and terminal block</div></div>
           <p>The command line has two options: -v for verbose, where every subordinate function announces itself to the console when it runs. Debug mode is activated with -d and allows you to manually run sequences.</p>
         </div>
 
         <h2 id="pumpkin">Make a Pumpkin<hr></h2>
         <div class="build-text">
-          <p>I chose a medium sized pumpkin, something small enough that the LEDs can adequately light it. Carve it up and add holes for the Cat-5 tether cable and the PIR wires.</p>
-          <p>I'll call this Version 1.0 of Pumpkin Pi. Next year, I might revisit this to scale up the LED array, figure out some more advanced sequences and add a better interface.</p>
+          <p>I chose a medium sized pumpkin, something small enough that the LEDs can adequately light it. Carve it up and add holes for the Cat-5 tether cable and the PIR wires. I used this chart to keep track of the wires from the GPIO through the terminal block. Using Cat 5e cable was convenient for packaging eight wires together, but added complexity to track what goes where. Terminal 1 is the one at the top of the picture.</p>
+          <table>
+            <tr><th>Circuit</th><th>GPIO</th><th>Wire Color</th><th>Terminal</th><th>Cat 5 Color</th></tr>
+            <tr><td>Red LED</td><td>23</td><td>Green</td><td>1</td><td>Green</td></tr>
+            <tr><td>Amber LED</td><td>22</td><td>Orange</td><td>2</td><td>Green/Stripe</td></tr>
+            <tr><td>White1 LED</td><td>24</td><td>White</td><td>3</td><td>Orange</td></tr>
+            <tr><td>White2 LED</td><td>25</td><td>Blue</td><td>4</td><td>Orange/Stripe</td></tr>
+            <tr><td>PIR Signal</td><td>17</td><td>Yellow</td><td>5</td><td>Brown</td></tr>
+            <tr><td>+5V</td><td>--</td><td>Red</td><td>7</td><td>Purple</td></tr>
+            <tr><td>GND</td><td>--</td><td>Black</td><td>8</td><td>Brown/Stripe</td></tr>
+          </table>
+          <p>I'll call this Version 1.0 of Pumpkin Pi. Next year, I might revisit this to scale up the LED array, use RG-45 jacks to connect the boards, figure out some more advanced sequences and add a better interface.</p>
         </div>
       </div>
     </div>
