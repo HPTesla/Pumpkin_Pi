@@ -28,7 +28,7 @@
       </div>
       
       <div class="content">
-        <img class="image-right" width="300px" src="./Images/PumpkinPiTerminal.PNG"/>
+        <div class="image-right"><img width="300px" src="./Images/PumpkinPiTerminal.PNG"/><div class="caption">For when you're feeling just a little old school</div></div>
         <h2 id="overview">Overview<hr></h2>
         <div class="build-text">
           <p>Some dozen years ago, I very nearly failed a 200-level Electrical Engineering course. More than fifteen years ago was the last time I did much programming. In FORTRAN. This is my guide to making a Raspberry Pi-powered interactive Jack-o'-Lantern from my completely novice perspective.</p>
@@ -122,7 +122,7 @@ def flash_1():
         pumpkin_pi_off()
         time.sleep(.25)</pre>
 
-          <p>The main program flow involves a few branching for loops that string together a relatively small number of animations to make it look more random. Every iteration of the main loop checks if the alloted running time is up, then checks the motion sensor before randomly choosing a blink pattern.</p>
+          <p>The main program flow involves a few branching for loops that string together a relatively small number of animations to make it look more random. Every iteration of the main loop checks if the allotted running time is up, then checks the motion sensor before randomly choosing a blink pattern.</p>
 
             <pre class="prettyprint">
 def pumpkin_pi(stopTime):
