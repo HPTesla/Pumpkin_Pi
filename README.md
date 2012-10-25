@@ -3,6 +3,8 @@ Pumpkin Pi
 
 Illuminate a Jack o'Lantern using LEDs and Raspberry Pi.
 
+http://begillespie.github.com/Pumpkin_Pi/
+
 About
 -----
 
