@@ -6,10 +6,10 @@ body{
   min-width: 1078px;
 }
 div.navbar{
+  position: fixed;
   color: #FF9100;
   background: #000;
-  position: fixed;
-  height: 108px;
+  height: 132px;
   width: 100%;
   top: 0px;
   left: 0px;
@@ -18,15 +18,68 @@ div.navbar h1{
   font-size: 44pt;
   font-weight: bold;
   display: inline;
-  line-height: 100px;
+  line-height: 132px;
   margin-left: 1em;
 }
-div.navbar p{
+#ribbon{
+  height: 149px;
+  width: 149px;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
   float: right;
-  font-size: 18px;
-  font-weight: normal;
-  text-decoration: none;
-  padding-right: 2em;
+}
+#ribbon a{
+			display: block;
+			width: 190px;
+			font-size: 14px;
+			font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", 
+				"Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, 
+				Geneva, "Helvetica Neue", Helvetica, Arial, sans serif;
+			background-color: #FF9100;
+			color: #FFF;
+			word-spacing: 2px;
+			text-decoration: none;
+			padding: 5px 15px 5px 25px;
+
+			position:relative;
+			left: 20px;
+			top: -37px;
+			text-align: center;
+
+			-moz-transform-origin: 0 0 ;
+			-moz-transform:rotate(45deg);
+			-moz-box-shadow:    1px 1px 5px 1px #666;
+
+			-webkit-transform-origin: 0 0 ;	
+			-webkit-transform:rotate(45deg);
+			-webkit-box-shadow: 1px 1px 5px 1px #666;
+
+			-ms-transform-origin: 0 0 ;	
+			-ms-transform:rotate(45deg);
+			-ms-box-shadow: 1px 1px 5px 1px #666;
+
+			transform-origin: 0 0 ;	
+			transform:rotate(45deg);
+			box-shadow: 1px 1px 5px 1px #666;
+
+			background-image: linear-gradient(bottom, #FF9100 3%, #666666 5%, #FF9100 7%, #FF9100 93%, #666666 95%, #FF9100 97%);
+			background-image: -o-linear-gradient(bottom, #FF9100 3%, #666666 5%, #FF9100 7%, #FF9100 93%, #666666 95%, #FF9100 97%);
+			background-image: -moz-linear-gradient(bottom, #FF9100 3%, #666666 5%, #FF9100 7%, #FF9100 93%, #666666 95%, #FF9100 97%);
+			background-image: -webkit-linear-gradient(bottom, #FF9100 3%, #666666 5%, #FF9100 7%, #FF9100 93%, #666666 95%, #FF9100 97%);
+			background-image: -ms-linear-gradient(bottom, #FF9100 3%, #666666 5%, #FF9100 7%, #FF9100 93%, #666666 95%, #FF9100 97%);
+
+			background-image: -webkit-gradient(
+				linear,
+				left bottom,
+				left top,
+				color-stop(0.03, #FF9100),
+				color-stop(0.05, #666666),
+				color-stop(0.07, #FF9100),
+				color-stop(0.93, #FF9100),
+				color-stop(0.95, #666666),
+				color-stop(0.97, #FF9100)
+			);	
 }
 ul.raspi{
   font-size: 8pt;
@@ -40,13 +93,12 @@ a:hover{
   color: #FF9100;
 }
 div.container{
-  padding-top: 100px;
+  padding-top: 132px;
   background: #000;
 }
 div.sidebar_left{
-  position: fixed;
-  display: block;
   float: left;
+  display: inline;
   width: 173px;
   padding: 0 20px;
   background: #666;
@@ -69,8 +121,6 @@ ul.contents li a{
 
 }
 div.content{
-  display: inline;
-  float: right;
   margin-left: 215px;
   padding: 30px;
   background: #666;
@@ -118,6 +168,7 @@ div.footer{
   display: block;
   clear: both;
   padding-top: 30px;
+  margin-left: 220px;
 }
 div.footer ul{
   list-style-type: none;

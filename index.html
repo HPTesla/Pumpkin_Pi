@@ -9,9 +9,10 @@
     <meta name="Description" content="A very easy beginners project to illuminate a Jack-o'Lantern using LEDs and Raspberry Pi.">
   </head>
   <body onload="prettyPrint()">
-      <div class="navbar">
-        <h1>Pumpkin Pi<p><a href="https://github.com/begillespie/Pumpkin_Pi">Fork me on GitHub</a></p></h1>
-      </div>
+    <div class="navbar">
+      <h1>Pumpkin Pi</h1>
+      <div id="ribbon"><a href="https://github.com/begillespie/Pumpkin_Pi">Fork me on GitHub</a></div>
+    </div>
     <div class="container">
       <div class="sidebar_left">
         <p class="tagline">Illuminate a Jack-o'-Lantern using LEDs and Raspberry Pi.</p><hr>
@@ -35,6 +36,7 @@
           <p>Why a Raspberry Pi? Well, it's all the rage right now, and, while an Arduino is probably a better choice here, a Pi was what I had. And we all know what they say about what to do when <a href="http://en.wiktionary.org/wiki/if_all_you_have_is_a_hammer,_everything_looks_like_a_nail">all you have is a hammer</a>. Also, I've been working on learning <a href="http://www.codecademy.com/tracks/python">Python</a> lately, so using the Pi was a good way to put what I've been learning to work.</p>
           <p>I'll walk through building the <a href="#circuits">circuits</a>, writing the <a href="#code">code</a>, and putting it all together into a <a href="#pumpkin">pumpkin</a>.</p>
         </div>
+        <div class="image-center"><img src="./Images/PumpkinPi5.jpg"/><div class="caption">Jack Skellington, the Pumpkin King</div></div>
 
         <h2 id="circuits">Build Some Circuits<hr></h2>
         <div class="build-text">
@@ -53,7 +55,7 @@
             <li>Resistors</li>
           </ul>
           <p>Some of the specifics on the parts list were driven by what I had on hand. I have four circuits for LEDs on pins 22, 23, 24 and 25. For a brighter red glow, I put two red LEDs together on one circuit. They are wired in parallel so each sees 3.3V for maximum brightness. Each individual LED also has a current limiting resistor.</p>
-          <p>The PIR wiring is very simple. It has 3 connections: ground, +5V and signal. My signal wire connects to pin 17 and the whole PIR is on a 12 inch lead so I can position it for best coverage. When the PIR senses motion, it sends out 3.3V on the signal wire for a little over a second. The Raspberry Pi interprets that as <code class="prettyprint">True</code>. To test using the PIR to trigger an action, I connected the PIR to pin 17, an LED to pin 22, and ran this script. All it does is listen for the PIR on pin 17. When a voltage is detected, it prints a message to the terminal and turns on the light. The <code class="prettyprint">While True:</code> statement will cause this loop to run forever. To exit this quick test, wait until the LED is off and hit Ctrl-C.</p>
+          <p>The PIR wiring is very simple. It has 3 connections: ground, +5V and signal. My signal wire connects to pin 17 and the whole PIR is on a 12 inch lead so I can position it for best coverage. When the PIR senses motion, it sends out 3.3V on the signal wire for a little over a second. The Raspberry Pi interprets that as <code class="prettyprint">True</code>. To test using the PIR to trigger an action, I connected the PIR to pin 17, an LED to pin 22, and ran this script. All it does is listen for the PIR on pin 17. When a voltage is detected, it prints a message to the terminal and turns on the light. The <code class="prettyprint">while True:</code> statement will cause this loop to run forever. To exit this quick test, wait until the LED is off and hit Ctrl-C. In the picture, only the resistor in the middle is part of the circuit. The other two were sitting in the board for something else and I just forgot to take them off before taking the picture.</p>
 <pre class="prettyprint">
 import RPi.GPIO as GPIO, time
 
@@ -97,7 +99,7 @@ class LED:
         leds.append(self)
         GPIO.setup(self.pin, GPIO.OUT)
     def on(self):
-        GPIO.output(self.pin, True
+        GPIO.output(self.pin, True)
     def off(self):
         GPIO.output(self.pin, False)</pre>
 
@@ -166,6 +168,7 @@ random.choice(list_of_functions)()</pre>
             <tr><td>+5V</td><td>--</td><td>Red</td><td>7</td><td>Purple</td></tr>
             <tr><td>GND</td><td>--</td><td>Black</td><td>8</td><td>Brown/Stripe</td></tr>
           </table>
+          <p>I hadn't really thought about what I was going to actually carve until I was looking at the hollowed-out pumpkin, knife in hand. Jack Skellington crossed my mind, so I looked up some pictures, sketched it out with a dry erase marker, and cut away. I think it turned out pretty good. I am quite pleased with how well the LEDs light up the jack-o'-lantern. They are performing far better than I had hoped. I particularly like how the red LEDs fill the volume of the pumpkin.</p>
           <p>I'll call this Version 1.0 of Pumpkin Pi. Next year, I might revisit this to scale up the LED array, use RG-45 jacks to connect the boards, figure out some more advanced sequences and add a better interface.</p>
         </div>
       </div>
