@@ -13,36 +13,36 @@ import RPi.GPIO as GPIO, sys, signal, time, random, bigletters
 #  Call it using bigletters.write('message','color','style').
 #  Run './bigletters.py --h' at the command prompt for a list of options.
 
-pumpkin = ["\033[1;33m",                    # Just a little fun. The color and escape sequences
-"                                .-'\ ",   # should work in BASH. Can't guarantee any other shells.
-"                                \:. \ ",
-"                                |:.  \ ",
-"                                /::'  \ ",
-"                             __/:::.   \ ",
-"                     _.-'-.'`  `'.-'`'._\-'`';.-'-, ",
-"                   .`;    :      :     :      :   : `. ",
-"                  / :     :      :                 :  \ ",
-"                 /        :/\          :   /\ :     :  \ ",
-"                ;   :     /\ \   :     :  /\ \      :   ; ",
-"               .    :    /  \ \          /  \ \          . ",
-"               ;        /_)__\ \ :     :/_)__\ \    :    ; ",
-"              ;         `-----`' : ,   :`-----`'          ; ",
-"              |    :      :       / \         :     :     | ",
-"              |                  / \ \ :            :     | ",
-"              |    :      :     /___\ \:      :           | ",
-"              |    :      :     `----`'       :           | ",
-"              ;        |;-.,__   :     :   __.-'|   :     ; ",
-"               ;    :  ||   \ \``/'---'\`\` /  ||        ; ",
-"                .    :  \\\   \_\/       \_\/   //   '   .   \033[1;32m  .~~.   .~~. \033[1;33m ",
-"                 ;       \\'._    /\     /\ _.-'/   :   ;    \033[1;32m '. \ ' ' / .' \033[1;33m",
-"                  \   :   `._`'-/ /\._./ /\  .'  :    /     \033[1;35m  .~..~~~..~. \033[1;33m ",
-"                   `\  :     `-.\/__\__\/_.;'   :   /`      \033[1;35m : .~.'~'.~. : \033[1;33m ",
-"                     `\  '   :   :        :   :  /`        \033[1;35m ~ (   ) (   ) ~ \033[1;33m ",
-"                       `-`.__`        :   :__.'-`         \033[1;35m ( : '~'.~.'~' : ) \033[1;33m ",
-"                             `-..`.__.'..-`                \033[1;35m ~ .~ (   ) ~. ~ ",
-"                                                             (  : '~' :  )  ",
-"\033[1;37m                                     Powered by Raspberry Pi \033[1;35m '~ .~~~. ~' ",
-"                                                                  '~' "]
+pumpkin = ["\033[1;33m",    # Just a little fun. The color and escape sequences
+"                   .-'\ ",   # should work in BASH. Can't guarantee any other shells.
+"                   \:. \ ",
+"                   |:.  \ ",
+"                   /::'  \ ",
+"                __/:::.   \ ",
+"        _.-'-.'`  `'.-'`'._\-'`';.-'-, ",
+"      .`;    :      :     :      :   : `. ",
+"     / :     :      :                 :  \ ",
+"    /        :/\          :   /\ :     :  \ ",
+"   ;   :     /\ \   :     :  /\ \      :   ; ",
+"  .    :    /  \ \          /  \ \          . ",
+"  ;        /_)__\ \ :     :/_)__\ \    :    ; ",
+" ;         `-----`' : ,   :`-----`'          ; ",
+" |    :      :       / \         :     :     | ",
+" |                  / \ \ :            :     | ",
+" |    :      :     /___\ \:      :           | ",
+" |    :      :     `----`'       :           | ",
+" ;        |;-.,__   :     :   __.-'|   :     ; ",
+"  ;    :  ||   \ \``/'---'\`\` /  ||        ; ",
+"   .    :  \\\   \_\/       \_\/   //   '   .   \033[1;32m  .~~.   .~~. \033[1;33m ",
+"    ;       \\'._    /\     /\ _.-'/   :   ;    \033[1;32m '. \ ' ' / .' \033[1;33m",
+"     \   :   `._`'-/ /\._./ /\  .'  :    /     \033[1;35m  .~..~~~..~. \033[1;33m ",
+"      `\  :     `-.\/__\__\/_.;'   :   /`      \033[1;35m : .~.'~'.~. : \033[1;33m ",
+"        `\  '   :   :        :   :  /`        \033[1;35m ~ (   ) (   ) ~ \033[1;33m ",
+"          `-`.__`        :   :__.'-`         \033[1;35m ( : '~'.~.'~' : ) \033[1;33m ",
+"                `-..`.__.'..-`                \033[1;35m ~ .~ (   ) ~. ~ ",
+"                                                (  : '~' :  )  ",
+"\033[1;37m                        Powered by Raspberry Pi \033[1;35m '~ .~~~. ~' ",
+"                                                     '~' "]
     # Pumpkin ASCII art courtesy of All Over The Internet. Thanks, jgs!!
     # Raspberry ASCII art from "b3n" on the Raspberry Pi forums http://www.raspberrypi.org/phpBB3/viewtopic.php?f=2&t=5494
 
@@ -215,8 +215,8 @@ def motion_sequence():     #  Special sequence to call on motion sensor activati
 
 def pumpkin_pi_quit():
   print 'Exit PumpkinPi\n\n'
-  bigletters.write('      happy', 'yellow', 'normal')     # Print an adorable exit message
-  bigletters.write(' halloween!!!', 'yellow', 'normal')
+  bigletters.write(' happy', 'yellow', 'normal')     # Print an adorable exit message
+  bigletters.write('halloween!', 'yellow', 'normal')
   for i in range(4):
     pumpkin_pi_on()
     time.sleep(1)
@@ -298,7 +298,7 @@ def main():
     
   for line in pumpkin:    # Print a pumpkin to the console.
     print line
-  bigletters.write(r'   pumpkin *', 'purple', 'bold')
+  bigletters.write(r'pumpkin *', 'purple', 'bold')
 
 #  stopTime = time.time() + 5 #debug
   pumpkin_pi(stopTime)
