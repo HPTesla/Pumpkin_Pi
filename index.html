@@ -132,10 +132,10 @@ def pumpkin_pi(stopTime):
     while stopTime > time.time():
         if GPIO.input(motionsensor):
             motion_sequence()
-    else:
-        random.choice(flash_patterns)()
-        pumpkin_pi_off()
-  pumpkin_pi_quit()</pre>
+        else:
+            random.choice(flash_patterns)()
+            pumpkin_pi_off()
+    pumpkin_pi_quit()</pre>
 
           <p>The <code class="prettyprint">while</code> loop will execute the code inside the loop as long as the condition is <code class="prettyprint">True</code> For randomly branching to different functions, I found this piece of code fascinating:</p>
 
