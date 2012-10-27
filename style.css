@@ -3,13 +3,12 @@ body{
   color: #F0F0F0;
   font-size: 12pt;
   font-family: sans-serif;
-  min-width: 1078px;
 }
 div.navbar{
   position: fixed;
   color: #FF9100;
   background: #000;
-  height: 132px;
+  height: 100px;
   width: 100%;
   top: 0px;
   left: 0px;
@@ -18,7 +17,7 @@ div.navbar h1{
   font-size: 44pt;
   font-weight: bold;
   display: inline;
-  line-height: 132px;
+  line-height: 100px;
   margin-left: 1em;
 }
 #ribbon{
@@ -93,7 +92,7 @@ a:hover{
   color: #FF9100;
 }
 div.container{
-  padding-top: 132px;
+  padding-top: 92px;
   background: #000;
 }
 div.sidebar_left{
@@ -123,6 +122,7 @@ ul.contents li a{
 div.content{
   margin-left: 215px;
   padding: 30px;
+  min-width: 800px;
   background: #666;
 }
 div.content h2{

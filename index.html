@@ -21,6 +21,7 @@
           <li><a href="#circuits">Circuits</a></li>
           <li><a href="#code">Code</a></li>
           <li><a href="#pumpkin">Pumpkin</a></li>
+          <li><a href="#result">Result</a></li>
         </ul>
         <ul class="raspi">
           <li><a href="http://www.raspberrypi.org"><img src="./Images/Raspi_Colour_R.png" height="60px" title="Raspberry Pi is a trademark of the Raspberry Pi Foundation"/></a></li>
@@ -34,7 +35,7 @@
         <div class="build-text">
           <p>Some dozen years ago, I very nearly failed a 200-level Electrical Engineering course. More than fifteen years ago was the last time I did much programming. In FORTRAN. This is my guide to making a Raspberry Pi-powered interactive Jack-o'-Lantern from my completely novice perspective.</p>
           <p>Why a Raspberry Pi? Well, it's all the rage right now, and, while an Arduino is probably a better choice here, a Pi was what I had. And we all know what they say about what to do when <a href="http://en.wiktionary.org/wiki/if_all_you_have_is_a_hammer,_everything_looks_like_a_nail">all you have is a hammer</a>. Also, I've been working on learning <a href="http://www.codecademy.com/tracks/python">Python</a> lately, so using the Pi was a good way to put what I've been learning to work.</p>
-          <p>I'll walk through building the <a href="#circuits">circuits</a>, writing the <a href="#code">code</a>, and putting it all together into a <a href="#pumpkin">pumpkin</a>.</p>
+          <p>I'll walk through building the <a href="#circuits">circuits</a>, writing the <a href="#code">code</a>, and putting it all together into a <a href="#pumpkin">pumpkin</a> before we admire the final <a href="#result">result</a>.</p>
         </div>
         <div class="image-center"><img src="./Images/PumpkinPi5.jpg"/><div class="caption">Jack Skellington, the Pumpkin King</div></div>
 
@@ -69,18 +70,18 @@ GPIO.output(22, False)
 time.sleep(5)
 
 while True:
-  if GPIO.input(17):        # Listen for the PIR on pin 17
-    print "Motion Sensor"
-    GPIO.output(22, True)
-    time.sleep(10)
-    GPIO.output(22, False)
+    if GPIO.input(17):        # Listen for the PIR on pin 17
+        print "Motion Sensor"
+        GPIO.output(22, True)
+        time.sleep(10)
+        GPIO.output(22, False)
 </pre>
           <p>A quick note about the GPIO pins on the Raspberry Pi: They are digital, which means that they are all or nothing, high or low, on or off, <code class="prettyprint">True</code> or <code class="prettyprint">False</code>. The correlation between what is happening in the code and physically, on the Pi, is that <code class="prettyprint">True</code> equals +3.3V on the GPIO pin and <code class="prettyprint">False</code> equals no voltage on the pin.</p>
         </div>
         <div class="image-center"><a href="./Images/PumpkinPi1.jpg"><img width="800px" src="./Images/PumpkinPi1_800px.jpg"/></a><div class="caption">Pumpkin Pi on the bench</div></div>
         <h2 id="code">Write Some Code<hr></h2>
         <div class="build-text">
-          <p>The code is in Python and posted on <a href="https://github.com/begillespie/pumpkin_pi">GitHub.</a> You'll need to make sure you have the <a href="http://code.google.com/p/raspberry-gpio-python">RPi.GPIO</a> library installed and up to date. The first thing to do is import some modules and set up the board and motion sensor.</p>
+          <p>The code is in Python and posted on <a href="https://github.com/begillespie/pumpkin_pi">GitHub</a>. You'll need to make sure you have the <a href="http://code.google.com/p/raspberry-gpio-python">RPi.GPIO</a> library installed and up to date. The first thing to do is import some modules and set up the board and motion sensor.</p>
             <pre class="prettyprint">
 import RPi.GPIO as GPIO, random, signal, sys, time, bigletters
 
@@ -151,13 +152,14 @@ random.choice(list_of_functions)()</pre>
           <p>And run it as root with a duration argument to tell it how long you want the pumpkin to run. The GPIO library requires root to get to the GPIO pins on the Raspberry Pi. To run for one hour:</p>
 
 <pre class="prettyprint">sudo ./pumpkinPi.py 01:00</pre>
-          <div class="image-left"><a href="./Images/PumpkinPi2.jpg"><img src="./Images/PumpkinPi2_300px.jpg"/></a><div class="caption">The breakout board and terminal block</div></div>
           <p>The command line has two options: -v for verbose, where every subordinate function announces itself to the console when it runs. Debug mode is activated with -d and allows you to manually run sequences.</p>
         </div>
 
         <h2 id="pumpkin">Make a Pumpkin<hr></h2>
         <div class="build-text">
           <p>I chose a medium sized pumpkin, something small enough that the LEDs can adequately light it. Carve it up and add holes for the Cat-5 tether cable and the PIR wires. I used this chart to keep track of the wires from the GPIO through the terminal block. Using Cat 5e cable was convenient for packaging eight wires together, but added complexity to track what goes where. Terminal 1 is the one at the top of the picture.</p>
+          <div class="image-right"><a href="./Images/PumpkinPi2.jpg"><img src="./Images/PumpkinPi2_300px.jpg"/></a><div class="caption">The breakout board and terminal block</div></div>
+
           <table>
             <tr><th>Circuit</th><th>GPIO</th><th>Wire Color</th><th>Terminal</th><th>Cat 5 Color</th></tr>
             <tr><td>Red LED</td><td>23</td><td>Green</td><td>1</td><td>Green</td></tr>
@@ -168,9 +170,12 @@ random.choice(list_of_functions)()</pre>
             <tr><td>+5V</td><td>--</td><td>Red</td><td>7</td><td>Purple</td></tr>
             <tr><td>GND</td><td>--</td><td>Black</td><td>8</td><td>Brown/Stripe</td></tr>
           </table>
-          <p>I hadn't really thought about what I was going to actually carve until I was looking at the hollowed-out pumpkin, knife in hand. Jack Skellington crossed my mind, so I looked up some pictures, sketched it out with a dry erase marker, and cut away. I think it turned out pretty good. I am quite pleased with how well the LEDs light up the jack-o'-lantern. They are performing far better than I had hoped. I particularly like how the red LEDs fill the volume of the pumpkin.</p>
+          <div class="image-right"><a href="./Images/PumpkinPi6.jpg"><img src="./Images/PumpkinPi6_300px.jpg"/></a><div class="caption">The remote board in place</div></div>
+          <p>I hadn't really thought about what I was going to actually carve until I was looking at the hollowed-out pumpkin, knife in hand. Jack Skellington crossed my mind, so I looked up some pictures, sketched it out with a dry erase marker, and cut away. I set the remote board inside of a short drinking glass to insulate it from pumpkin goop. I think it turned out pretty good. I am quite pleased with how well the LEDs light up the jack-o'-lantern. They are performing far better than I had hoped. I particularly like how the red LEDs fill the volume of the pumpkin. The two big white LEDs produce an extra bright blowout, and the amber provides a touch of warmth.</p>
           <p>I'll call this Version 1.0 of Pumpkin Pi. Next year, I might revisit this to scale up the LED array, use RG-45 jacks to connect the boards, figure out some more advanced sequences and add a better interface.</p>
         </div>
+        <h2 id="result">The Result<hr></h2>
+        <iframe class="image-center" width="853" height="480" src="http://www.youtube.com/embed/XOJ01TRHTFc" frameborder="0" allowfullscreen></iframe>
       </div>
     </div>
     <div class="footer">
